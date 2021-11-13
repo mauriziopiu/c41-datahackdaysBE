@@ -1,0 +1,11 @@
+<webcam [trigger]="trigger" (imageCapture)="captureImage($event)"></webcam>
+
+<button (click)="triggerWebcam()">Click me</button>
+<button (click)="sendPicture()">Click me</button>
+
+<div class="snapshot" *ngIf="image">
+  <h2>Nice one!</h2>
+  <img [src]="image.imageAsDataUrl" />
+</div>
+
+<router-outlet></router-outlet>
