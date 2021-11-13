@@ -18,35 +18,36 @@ export class AppComponent {
 
   private imageObs = this.imageSource.asObservable();
 
-i = 0;
+  i = 0;
 
   image: WebcamImage | undefined;
 
-  imageString: string | undefined
+  imageString: string | undefined;
 
   title = 'frontend-angular';
 
   constructor(private http: HttpClient) {
     setInterval(() => {
-      if(this.imageRoulette.length === 0) return
-      if(this.i >= this.imageRoulette.length -1){
-        this.i = 0
-        console.log('Reseting')
+      if (this.imageRoulette.length === 0) return;
+      if (this.i >= this.imageRoulette.length - 1) {
+        this.i = 0;
+        console.log('Reseting');
       }
-      this.imageSource.next(this.imageRoulette[this.i])
+      this.imageSource.next(this.imageRoulette[this.i]);
       this.i++;
-      console.log('UPDATING', this.i, this.imageRoulette.length)
-    }, 1000)
+      console.log('UPDATING', this.i, this.imageRoulette.length);
+    }, 1000);
     this.imageObs.subscribe((image) => {
-      console.log('GOT IMAGE')
-      this.imageString = image
-    })
+      console.log('GOT IMAGE');
+      this.imageString = image;
+    });
   }
 
   captureImage(event: WebcamImage) {
     console.log('got a capture');
     console.log(event);
     this.image = event;
+    this.sendPicture();
   }
 
   triggerWebcam() {
@@ -56,16 +57,21 @@ i = 0;
   sendPicture() {
     if (this.image) {
       this.http
-        .post<string[]>('http://localhost:3000/picture', {
+        .post<string[]>('/api/picture', {
           image: this.image.imageAsDataUrl,
         })
-        .subscribe((data) => {
-          if(data.length > 0){this.imageRoulette = data
-            console.log(data);}
-          
-        }, (error) => {console.error(error) 
-          if(this.image)
-        this.imageRoulette.push(this.image.imageAsDataUrl)});
+        .subscribe(
+          (data) => {
+            if (data.length > 0) {
+              this.imageRoulette = data;
+              console.log(data);
+            }
+          },
+          (error) => {
+            console.error(error);
+            if (this.image) this.imageRoulette.push(this.image.imageAsDataUrl);
+          },
+        );
     }
   }
 }

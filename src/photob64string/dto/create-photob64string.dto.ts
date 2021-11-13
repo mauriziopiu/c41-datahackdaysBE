@@ -1,1 +1,3 @@
-export class CreatePhotob64stringDto {}
+export class CreatePhotob64stringDto {
+  image: string;
+}
