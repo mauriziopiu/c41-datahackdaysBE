@@ -20,6 +20,8 @@ export class AppComponent {
 
   i = 0;
 
+  submitted = false;
+
   image: WebcamImage | undefined;
 
   imageString: string | undefined;
@@ -44,6 +46,10 @@ export class AppComponent {
   }
 
   captureImage(event: WebcamImage) {
+    if (this.submitted === false) {
+      this.submitted = true;
+      return;
+    }
     console.log('got a capture');
     console.log(event);
     this.image = event;
