@@ -1,3 +1,7 @@
+<div *ngIf="imageString">
+  <img [src]="imageString" />
+</div>
+
 <webcam [trigger]="trigger" (imageCapture)="captureImage($event)"></webcam>
 
 <button (click)="triggerWebcam()">Click me</button>
@@ -7,5 +11,7 @@
   <h2>Nice one!</h2>
   <img [src]="image.imageAsDataUrl" />
 </div>
+
+
 
 <router-outlet></router-outlet>

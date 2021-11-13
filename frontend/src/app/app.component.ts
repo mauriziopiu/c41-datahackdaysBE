@@ -18,11 +18,30 @@ export class AppComponent {
 
   private imageObs = this.imageSource.asObservable();
 
+i = 0;
+
   image: WebcamImage | undefined;
+
+  imageString: string | undefined
 
   title = 'frontend-angular';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    setInterval(() => {
+      if(this.imageRoulette.length === 0) return
+      if(this.i >= this.imageRoulette.length -1){
+        this.i = 0
+        console.log('Reseting')
+      }
+      this.imageSource.next(this.imageRoulette[this.i])
+      this.i++;
+      console.log('UPDATING', this.i, this.imageRoulette.length)
+    }, 1000)
+    this.imageObs.subscribe((image) => {
+      console.log('GOT IMAGE')
+      this.imageString = image
+    })
+  }
 
   captureImage(event: WebcamImage) {
     console.log('got a capture');
@@ -44,6 +63,7 @@ export class AppComponent {
           console.log(data);
         });
       this.imageRoulette.push(this.image.imageAsDataUrl);
+      console.log(this.imageRoulette)
     }
   }
 }
