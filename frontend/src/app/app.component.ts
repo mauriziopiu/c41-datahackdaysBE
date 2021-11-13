@@ -56,14 +56,16 @@ i = 0;
   sendPicture() {
     if (this.image) {
       this.http
-        .post('http://localhost:3000/picture', {
+        .post<string[]>('http://localhost:3000/picture', {
           image: this.image.imageAsDataUrl,
         })
         .subscribe((data) => {
-          console.log(data);
-        });
-      this.imageRoulette.push(this.image.imageAsDataUrl);
-      console.log(this.imageRoulette)
+          if(data.length > 0){this.imageRoulette = data
+            console.log(data);}
+          
+        }, (error) => {console.error(error) 
+          if(this.image)
+        this.imageRoulette.push(this.image.imageAsDataUrl)});
     }
   }
 }
