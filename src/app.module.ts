@@ -9,7 +9,7 @@ import { join } from 'path';
   imports: [
     Photob64stringModule,
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '../../', 'client'),
+      rootPath: join(__dirname, '../', 'client'),
     }),
   ],
   controllers: [AppController],
